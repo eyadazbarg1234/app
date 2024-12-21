@@ -14,7 +14,8 @@ upup:require("./uparrow.png"),
 moni:require("./monitorgd.jpg"),
 adfds:require("./cartss.png"),
 tool:require("./toolboxz.jpg"),
-del:require("./delete.png")
+del:require("./delete.png"),
+home:require("./homedistar.png")
 }
 export default Images
 // fcb:require("./fcb.png"),

@@ -30,6 +30,7 @@ const cart = () => {
     
 
     return (
+      
       <View style={styles.dsg}>
         <Text style={styles.werr}>Total:{sum }</Text>
       </View>
@@ -44,13 +45,14 @@ const cart = () => {
 
       return (
         
+                <ScrollView>
         <View style={styles.cart}>
 
           <Image style={styles.imgg} source={item.prodImg} />
           <View style={styles.pricee}>
             <Text style={styles.price} >{item.prodPrice}₪</Text>
             <Text style={styles.quan}>Quantity:{item.prodQuantity}</Text>
-
+    
             <TouchableOpacity onPress={() => deleteItem(prid)}>
               <Image style={styles.dele} source={Images.del} />
             </TouchableOpacity>
@@ -64,6 +66,8 @@ const cart = () => {
 
           {/* <Text style={styles.namee}>{item.prodName}</Text> */}
         </View>
+        </ScrollView>
+      
       )
     })
   }
@@ -71,7 +75,8 @@ const cart = () => {
   return (
     <View style={styles.container}>
       {renderCart()}
-
+      <Image style={styles.ho} source={Images.home}/>
+      
       {calcamount()}
     </View>
   )
@@ -80,6 +85,11 @@ const cart = () => {
 export default cart
 
 const styles = StyleSheet.create({
+
+  ho:{
+    marginBottom:190,
+    fontSize:10
+  },
   container: {
     flex: 1
   },

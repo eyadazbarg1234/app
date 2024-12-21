@@ -58,7 +58,7 @@ const data = [
     {
         id: 5,
         img: Images.moni,
-        price: 1244,
+        price: 1099,
         quantity: 1,
         name:"144hz monitor full hd "
     },
