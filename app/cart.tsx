@@ -4,6 +4,7 @@ import build from './build'
 import ProductContext from '@/store/ProductContext'
 import Images from '@/assets/images/Images'
 import { TouchableOpacity } from 'react-native'
+import { router, useNavigation } from 'expo-router';
 
 
 
@@ -45,7 +46,7 @@ const cart = () => {
 
       return (
         
-                <ScrollView>
+               
         <View style={styles.cart}>
 
           <Image style={styles.imgg} source={item.prodImg} />
@@ -66,7 +67,7 @@ const cart = () => {
 
           {/* <Text style={styles.namee}>{item.prodName}</Text> */}
         </View>
-        </ScrollView>
+       
       
       )
     })
@@ -75,7 +76,9 @@ const cart = () => {
   return (
     <View style={styles.container}>
       {renderCart()}
-      <Image style={styles.ho} source={Images.home}/>
+       <TouchableOpacity onPress={() =>router.navigate('eyadss')}>
+       <Image style={styles.ho} source={Images.home}/> 
+       </TouchableOpacity>
       
       {calcamount()}
     </View>
@@ -87,8 +90,10 @@ export default cart
 const styles = StyleSheet.create({
 
   ho:{
-    marginBottom:190,
-    fontSize:10
+    marginBottom:0,
+    width:90,
+    height:90,
+     marginLeft:320
   },
   container: {
     flex: 1
