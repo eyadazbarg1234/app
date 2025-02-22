@@ -4,7 +4,7 @@ import React from 'react'
 const ProdactItem = (props: any) => {
   return (
     <View style={styles.rte}>
-      <Image style={styles.rfdr} source={props.img} />
+      <Image style={styles.rfdr} source={{ uri: props.image }} />
       {/* <Text>{props.price}</Text> */}
       <View style={styles.description}>
         <Text style={styles.ett}>{props.name}</Text>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     width: 210,
     height: 230,
     resizeMode: "contain",
-    
+
 
   },
   rte: {

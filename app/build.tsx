@@ -1,173 +1,122 @@
-import { Image, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
-import React, { useContext, useState } from 'react'
-import { useLocalSearchParams, useNavigation } from 'expo-router'
-import { DrawerActions } from '@react-navigation/native'
-import { TOUCHABLE_STATE } from 'react-native-gesture-handler/lib/typescript/components/touchables/GenericTouchable'
-import ProductContext from '@/store/ProductContext'
-import ProdactItem from '@/components/ProdactItem';
-import ScreenNames from '@/components/ScreenNames';
-import { setBackgroundColorAsync } from 'expo-system-ui'
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import ProductContext from '@/store/ProductContext';
 
-
-const build = () => {
-    const data = useLocalSearchParams()
-
-    const [quantity, setQuantity] = useState(1)
-    const { cart , setCart } = useContext(ProductContext)
-
+const Build = () => {
+    const data = useLocalSearchParams();
+    const [quantity, setQuantity] = useState(1);
+    const { cart, setCart } = useContext(ProductContext);
     const nav = useNavigation();
 
-    
+    const increaseQuantity = () => setQuantity(quantity + 1);
 
+    const decreaseQuantity = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
+    };
 
-    const increaseQuantity = () => {
-        setQuantity(quantity + 1)
-    }
-    const minoyQuantity = () => {
-        if (quantity <= 1) {
-            setQuantity(1)
-        } else {
-            setQuantity(quantity - 1)
-        }
-    }
-
-    const addtoCart = () => {
+    const addToCart = () => {
         const myItem = {
-           prodId : data.id, 
-           prodImg : data.img,
-           prodPrice : data.price * quantity,
-           prodQuantity:quantity ,
-           prodName:data.name
-        }
-        const newCart = cart;
-        newCart.push(myItem);
-    //    console.log(newCart);
-        setCart([...newCart]);
-        nav.navigate('cart')
-    }
+            prodId: data.id,
+            prodImg: data.img,
+            prodPrice: data.price * quantity,
+            prodQuantity: quantity,
+            prodName: data.name,
+        };
+        setCart([...cart, myItem]);
+        nav.navigate('cart');
+    };
 
     return (
-        <View style={styles.atk}>
-            {/* <Text style={styles.frw}>TEyad</Text> */}
-            <View style={styles.desc}>
-                <Text style={styles.ssf}>{data.name}</Text>    
-            </View>
-            
-
-            <Image style={styles.egwf} source={data.img} />
-            
-
-            <View style={styles.hdg}>
-                {/* <Button  title='+' onPress={increaseQuantity} /> */}
-                <Text style={styles.pluss} onPress={increaseQuantity}>+</Text>
-                <Text style={styles.gjhf}>{quantity}</Text>
-                <Text style={styles.minuss} onPress={minoyQuantity}>-</Text>
-                {/* <Button title='-' onPress={minoyQuantity} /> */}
+        <View style={styles.container}>
+            <View style={styles.descContainer}>
+                <Text style={styles.title}>{data.name}</Text>
             </View>
 
-            <View style={styles.saf}>
-                <Text style={styles.retf}>price:{data.price * quantity}₪</Text>
+            <Image style={styles.productImage} source={{ uri: data?.image }} />
 
+            <View style={styles.quantityContainer}>
+                <Text style={styles.quantityButton} onPress={increaseQuantity}>+</Text>
+                <Text style={styles.quantityText}>{quantity}</Text>
+                <Text style={styles.quantityButton} onPress={decreaseQuantity}>-</Text>
             </View>
-            
-              <TouchableOpacity onPress={addtoCart}>
-            <View style={styles.ert}>
-                    <Text style={styles.mar}>add to cart</Text>
+
+            <View style={styles.priceContainer}>
+                <Text style={styles.priceText}>Price: {data.price * quantity}₪</Text>
             </View>
+
+            <TouchableOpacity onPress={addToCart} style={styles.addButton}>
+                <Text style={styles.addButtonText}>Add to Cart</Text>
             </TouchableOpacity>
-
         </View>
+    );
+};
 
-
-    )
-
-}
-export default build
+export default Build;
 
 const styles = StyleSheet.create({
-    
-    ert: {
-        borderWidth: 4,
-        borderColor: "#F194FF",
-        backgroundColor: "#F194FF",
-        borderRadius: 20,
-        padding: 13,
-        elevation: 1,
-        width: "90%",
-        alignSelf: 'center',
-    },
-    mar: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    ssf:{
-
-    },
-
-    pluss: {
-        // marginTop:15,
-        fontSize: 20,
-        justifyContent: "center"
-    },
-
-    minuss: {
-        // marginTop:15,
-        fontSize: 20,
-        justifyContent: "center"
-    },
-
-    atk: {
+    container: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#f8f9fa",
         justifyContent: "space-evenly",
-        // alignItems: 'center',
+        padding: 20,
     },
-    // frw: {
-    //     marginTop: 30,
-    //     marginLeft: 185
-    // },
-    egwf: {
-        width: 350,
-        height: 300,
-        //flexDirection:"row",
-        marginTop: 70,
-        marginLeft: 35,
-        borderRadius: 30,
-        resizeMode: 'contain',
-        //backgroundColor:"brown"
-    },
-    retf: {
-        fontSize: 25
-    },
-    saf: {
-
-        alignItems: 'center',
-
-    },
-    gjhf: {
-        fontSize: 35,
-
-
-    },
-    hdg: {
-        justifyContent: "center",
-        fontSize: 90,
-        //justifyContent: "space-between",
-        marginTop: -10,
-        //flexDirection:"row",
-        alignItems: "center",
-    },
-    gjhfHammer: {
-        width: 30,
-        height: 30
-
-    },
-
-    desc: {
-        // borderWidth: 1,
-        height: 120,
+    descContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 10,
     },
-})
+    title: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: "#333",
+    },
+    productImage: {
+        width: 320,
+        height: 280,
+        alignSelf: "center",
+        borderRadius: 20,
+        resizeMode: 'contain',
+        backgroundColor: "#fff",
+        elevation: 5,
+    },
+    quantityContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 10,
+    },
+    quantityButton: {
+        fontSize: 32,
+        color: "#007bff",
+        paddingHorizontal: 15,
+        fontWeight: "bold",
+    },
+    quantityText: {
+        fontSize: 28,
+        fontWeight: "bold",
+        marginHorizontal: 10,
+    },
+    priceContainer: {
+        alignItems: 'center',
+    },
+    priceText: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "#28a745",
+    },
+    addButton: {
+        backgroundColor: "#007bff",
+        paddingVertical: 15,
+        borderRadius: 30,
+        alignItems: 'center',
+        width: "90%",
+        alignSelf: 'center',
+        elevation: 3,
+    },
+    addButtonText: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+});

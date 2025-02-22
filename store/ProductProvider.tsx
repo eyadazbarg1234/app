@@ -6,6 +6,7 @@ const ProductProvider = (props: any) => {
     const [number,setNumber] = useState()
     
    const [cart,setCart] = useState([])
+   const [user,setUser] = useState()
 
     return (
         <ProductContext.Provider
@@ -13,7 +14,8 @@ const ProductProvider = (props: any) => {
             number,
             setNumber,
             cart,
-            setCart
+            setCart,
+            user,setUser
         }}>
             {props.children}
         </ProductContext.Provider>
