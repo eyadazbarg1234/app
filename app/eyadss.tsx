@@ -110,6 +110,7 @@ const goToAddProduct = () => {
 export default Eyadss;
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: "#f4f7fc",
@@ -119,6 +120,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
+backgroundColor:'white',
+    padding: 1,
+    borderRadius: 10,
   },
   cartContainer: {
     padding: 10,

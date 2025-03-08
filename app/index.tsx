@@ -35,6 +35,7 @@ const LoginScreen = () => {
         console.log("res", res);
         if (res.success) {
           //
+          setUser(res.data)
           nav.replace("eyadss")
         } else {
           alert(" CreateUser in faild")

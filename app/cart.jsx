@@ -1,4 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, ysestate } from "react";
+// import CreditCardInput from "react-credit-card-input";
+// import { CreditCardInput } from 'react-native-credit-card-input';
+
+
 import {
   Image,
   ScrollView,
@@ -7,13 +11,23 @@ import {
   View,
   TouchableOpacity,
   Animated,
+
 } from "react-native";
 import ProductContext from "@/store/ProductContext";
 import Images from "@/assets/images/Images";
+import { useNavigation } from "expo-router";
+import { FontAwesome5 } from "@expo/vector-icons";
+
+
+
 
 const Cart = () => {
   const { cart, setCart } = useContext(ProductContext);
   const fadeAnim = new Animated.Value(0);
+  const nav = useNavigation();
+
+  console.log("cart", cart);
+
 
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -25,39 +39,48 @@ const Cart = () => {
 
   const deleteItem = (id) => {
     setCart(cart.filter((item) => item.prodId !== id));
+    // const deleteItem = cart.splice(cart.findIndex((item) => item.prodId === id), 1);
+    // setCart([...deleteItem]);
+
   };
 
   const calcAmount = () => {
     const total = cart.reduce((sum, item) => sum + item.prodPrice, 0);
     return (
-      <View style={styles.totalContainer}>
+      <TouchableOpacity onPress={() => { nav.navigate('CreditCard') }} style={styles.totalContainer}>
         <Text style={styles.totalText}>Total: {total}₪</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   const renderCart = () =>
-    cart.map((item) => (
-      <Animated.View
-        key={item.prodId}
-        style={[styles.cartItem, { opacity: fadeAnim }]}
-      >
-        <Image style={styles.itemImage} source={item.prodImg} />
-        <View style={styles.itemDetails}>
-          <Text style={styles.itemPrice}>{item.prodPrice}₪</Text>
-          <Text style={styles.itemQuantity}>Quantity: {item.prodQuantity}</Text>
-          <TouchableOpacity onPress={() => deleteItem(item.prodId)}>
-            <Image style={styles.deleteIcon} source={Images.del} />
-          </TouchableOpacity>
-        </View>
-      </Animated.View>
-    ));
+    cart.map((item, index) => {
+      console.log("item", item);
+
+      return (
+        <Animated.View
+          key={index}
+          style={[styles.cartItem, { opacity: fadeAnim }]}
+        >
+          <Image style={styles.itemImage} source={{ uri: item.prodImg }} />
+          <View style={styles.itemDetails}>
+            <Text style={styles.itemPrice}>{item.prodPrice}₪</Text>
+            <Text style={styles.itemQuantity}>Quantity: {item.prodQuantity}</Text>
+            <TouchableOpacity onPress={() => deleteItem(item.prodId)}>
+              {/* <Image style={styles.deleteIcon} source={Images.del} /> */}
+              <FontAwesome5 style={styles.deleteIcon} name="trash-alt" size={20} color="black" />
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      )
+    });
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>🛒 Your Cart</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {cart.length > 0 ? renderCart() : <Text style={styles.emptyCart}>Your cart is empty</Text>}
+        {cart.length > 0 ? renderCart() :
+          <Text style={styles.emptyCart}>Your cart is empty</Text>}
       </ScrollView>
       {cart.length > 0 && calcAmount()}
     </View>
@@ -116,9 +139,10 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   deleteIcon: {
-    width: 26,
-    height: 26,
+    width: 20,
+    height: 20,
     marginTop: 5,
+    // alignItems: 'baseline'
   },
   totalContainer: {
     backgroundColor: "#4CAF50",

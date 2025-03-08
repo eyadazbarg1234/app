@@ -26,10 +26,7 @@ export const CreateProduct = async (body )=>{
     
 }
 
-export const createProductFromServer = async (body )=>{
-    const route = "/createProduct"
-    return fetchApi(route, "POST", body)
-}
+
 
 
 export const  fetchApi = async (route, method, body )=> {

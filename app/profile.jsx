@@ -8,6 +8,8 @@ import ProductContext from '@/store/ProductContext';
 const profile = () => {
   const nav = useNavigation();
   const { user } = useContext(ProductContext)
+  console.log("user is", user);
+  
   return (
     <View>
       <View style={styles.ion}>
@@ -30,7 +32,9 @@ const profile = () => {
 
 
       <View style={styles.Logout}>
+        <TouchableOpacity onPress={() => nav.navigate('index')}>
         <Text style={styles.Log}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </View>
 

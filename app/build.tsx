@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import ProductContext from '@/store/ProductContext';
 
 const Build = () => {
@@ -15,16 +15,19 @@ const Build = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
 
+    console.log("data", data);
+    
+
     const addToCart = () => {
         const myItem = {
-            prodId: data.id,
-            prodImg: data.img,
+            prodId: data._id,
+            prodImg: data.image,
             prodPrice: data.price * quantity,
             prodQuantity: quantity,
             prodName: data.name,
         };
         setCart([...cart, myItem]);
-        nav.navigate('cart');
+        router.navigate("/cart")
     };
 
     return (
